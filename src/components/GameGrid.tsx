@@ -7,7 +7,7 @@ import useGames from "../hooks/useGames";
 const GameGrid = () => {
   const { data: games, error, isLoading } = useGames();
 
-  const skeletons = [1, 2, 3, 4, 5, 6];
+  const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
   return (
     <>
       {error && <Text>{error}</Text>}
@@ -18,7 +18,7 @@ const GameGrid = () => {
           lg: 3,
           xl: 5,
         }}
-        spacing="10px"
+        spacing="20px"
         padding="10px"
       >
         {isLoading &&
