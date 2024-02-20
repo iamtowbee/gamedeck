@@ -1,21 +1,25 @@
 import {
   Box,
-  Flex,
+  Button,
   HStack,
   Image,
   List,
   ListItem,
-  Skeleton,
   SkeletonCircle,
   SkeletonText,
-  Spinner,
-  Text,
 } from "@chakra-ui/react";
-import useGenres from "../hooks/useGenres";
+import useGenres, { Genre } from "../hooks/useGenres";
 import getCroppedImageUrl from "../services/image-url";
+import { RiArrowRightDoubleLine } from "react-icons/ri";
+import { useState } from "react";
 
-const GenreList = () => {
+interface Props {
+  onSelectGenre: (genre: Genre) => void;
+}
+
+const GenreList = ({ onSelectGenre }: Props) => {
   const { data: genres, isLoading, error } = useGenres();
+  const [hoveredGenreId, setHoveredGenreId] = useState<T>(null);
 
   // let skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 
@@ -55,9 +59,17 @@ const GenreList = () => {
               borderRadius="8px"
               src={getCroppedImageUrl(genre.image_background)}
             />
-            <Text fontSize="lg" fontWeight="medium">
+            <Button
+              fontSize="lg"
+              variant="link"
+              fontWeight="medium"
+              onMouseEnter={() => setHoveredGenreId(genre.id)}
+              onMouseLeave={() => setHoveredGenreId(null)}
+              onClick={() => onSelectGenre(genre)}
+            >
               {genre.name}
-            </Text>
+              {hoveredGenreId === genre.id ? <RiArrowRightDoubleLine /> : null}
+            </Button>
           </HStack>
         </ListItem>
       ))}
