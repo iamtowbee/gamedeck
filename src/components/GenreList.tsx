@@ -15,9 +15,10 @@ import { useState } from "react";
 
 interface Props {
   onSelectGenre: (genre: Genre) => void;
+  selectedGenre: Genre | null;
 }
 
-const GenreList = ({ onSelectGenre }: Props) => {
+const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
   const { data: genres, isLoading, error } = useGenres();
   const [hoveredGenreId, setHoveredGenreId] = useState<T>(null);
 
@@ -53,7 +54,7 @@ const GenreList = ({ onSelectGenre }: Props) => {
     <List>
       {genres.map((genre) => (
         <ListItem key={genre.id} paddingY={1.5}>
-          <HStack>
+          <HStack alignItems="end">
             <Image
               boxSize="32px"
               borderRadius="8px"
@@ -62,10 +63,11 @@ const GenreList = ({ onSelectGenre }: Props) => {
             <Button
               fontSize="lg"
               variant="link"
-              fontWeight="medium"
+              fontWeight={genre.id === selectedGenre?.id ? "bold" : "normal"}
               onMouseEnter={() => setHoveredGenreId(genre.id)}
               onMouseLeave={() => setHoveredGenreId(null)}
               onClick={() => onSelectGenre(genre)}
+              className="align-end truncate"
             >
               {genre.name}
               {hoveredGenreId === genre.id ? <RiArrowRightDoubleLine /> : null}
