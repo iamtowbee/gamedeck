@@ -7,6 +7,7 @@ import {
   ListItem,
   SkeletonCircle,
   SkeletonText,
+  Tooltip,
 } from "@chakra-ui/react";
 import useGenres, { Genre } from "../hooks/useGenres";
 import getCroppedImageUrl from "../services/image-url";
@@ -20,7 +21,7 @@ interface Props {
 
 const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
   const { data: genres, isLoading, error } = useGenres();
-  const [hoveredGenreId, setHoveredGenreId] = useState<T>(null);
+  const [hoveredGenreId, setHoveredGenreId] = useState<number | null>(null);
 
   // let skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 
@@ -54,24 +55,32 @@ const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
     <List>
       {genres.map((genre) => (
         <ListItem key={genre.id} paddingY={1.5}>
-          <HStack alignItems="end">
+          <HStack>
             <Image
               boxSize="32px"
               borderRadius="8px"
               src={getCroppedImageUrl(genre.image_background)}
             />
-            <Button
-              fontSize="lg"
-              variant="link"
-              fontWeight={genre.id === selectedGenre?.id ? "bold" : "normal"}
-              onMouseEnter={() => setHoveredGenreId(genre.id)}
-              onMouseLeave={() => setHoveredGenreId(null)}
-              onClick={() => onSelectGenre(genre)}
-              className="align-end truncate"
-            >
-              {genre.name}
-              {hoveredGenreId === genre.id ? <RiArrowRightDoubleLine /> : null}
-            </Button>
+            <Box isTruncated={genre.name.length > 12}>
+              <Tooltip hasArrow label={genre.name} placement="top">
+                <Button
+                  fontSize="lg"
+                  variant="link"
+                  fontWeight={
+                    genre.id === selectedGenre?.id ? "bold" : "normal"
+                  }
+                  onMouseEnter={() => setHoveredGenreId(genre.id)}
+                  onMouseLeave={() => setHoveredGenreId(null)}
+                  onClick={() => onSelectGenre(genre)}
+                  className="align-end truncate"
+                >
+                  {genre.name}
+                  {hoveredGenreId === genre.id ? (
+                    <RiArrowRightDoubleLine />
+                  ) : null}
+                </Button>
+              </Tooltip>
+            </Box>
           </HStack>
         </ListItem>
       ))}
