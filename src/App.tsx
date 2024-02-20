@@ -12,6 +12,8 @@ function App() {
   const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(
     null
   );
+  console.log(selectedPlatform);
+
   return (
     <>
       <Grid
