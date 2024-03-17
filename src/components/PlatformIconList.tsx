@@ -7,11 +7,12 @@ import {
   FaAndroid,
 } from "react-icons/fa";
 import { MdPhoneIphone } from "react-icons/md";
-import { SiNintendo } from "react-icons/si";
+import { SiCommodore, SiNintendo, SiSega } from "react-icons/si";
 import { BsGlobe } from "react-icons/bs";
 import { HStack, Icon } from "@chakra-ui/react";
 import { Platform } from "../hooks/useGames";
 import { IconType } from "react-icons";
+import { SiAtari } from "react-icons/si";
 
 interface Props {
   platforms: Platform[];
@@ -28,10 +29,13 @@ const PlatformIconList = ({ platforms }: Props) => {
     android: FaAndroid,
     ios: MdPhoneIphone,
     web: BsGlobe,
+    atari: SiAtari,
+    sega: SiSega,
+    commodore: SiCommodore,
   };
 
   return (
-    <HStack marginY={2}>
+    <HStack marginY={2} maxW="md" wrap="wrap">
       {platforms.map((platform) => (
         <Icon as={iconMap[platform.slug]} color="gray.500" key={platform.id} />
       ))}

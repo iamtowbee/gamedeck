@@ -22,7 +22,7 @@ const GameCard = ({ game }: Props) => {
     <Card height="full">
       <Image
         src={getCroppedImageUrl(game.background_image)}
-        fallback={<Img />}
+        fallback={<Img w="600px" h="400px" />}
       />
       <CardBody>
         <Flex height="full" direction="column" justifyContent="space-between">
