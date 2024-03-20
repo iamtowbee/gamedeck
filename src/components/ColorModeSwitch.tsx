@@ -1,16 +1,37 @@
-import { HStack, Switch, Text, useColorMode } from "@chakra-ui/react";
+import {
+  ComponentWithAs,
+  Flex,
+  Icon,
+  Switch,
+  useColorMode,
+} from "@chakra-ui/react";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 const ColorModeSwitch = () => {
   const { toggleColorMode, colorMode } = useColorMode();
+  const iconMap: { [key: string]: ComponentWithAs<"svg"> } = {
+    light: SunIcon,
+    dark: MoonIcon,
+  };
   return (
-    <HStack>
+    <Flex
+      marginEnd={0}
+      direction={["column-reverse", "column-reverse", "row"]}
+      alignItems="center"
+      gap={1.5}
+    >
       <Switch
-        colorScheme="green"
+        colorScheme="whiteAlpha"
         isChecked={colorMode === "dark"}
         onChange={toggleColorMode}
       />
-      <Text>Dark Mode</Text>
-    </HStack>
+      <Icon
+        as={iconMap[colorMode]}
+        color="gray.500"
+        key={Math.round(Math.random())}
+        boxSize={5}
+      />
+    </Flex>
   );
 };
 
