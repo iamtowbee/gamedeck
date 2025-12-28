@@ -1,7 +1,8 @@
-import { Grid, GridItem, HStack, Show } from "@chakra-ui/react";
+import { Grid, GridItem, HStack, Show, Box, Button } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import GameGrid from "./components/GameGrid";
 import GenreList from "./components/GenreList";
+import DailyGameMenuCarousel from "./components/DailyGameMenuCarousel";
 import { useState } from "react";
 import { Genre } from "./hooks/useGenres";
 import PlatformSelector from "./components/PlatformSelector";
@@ -14,9 +15,33 @@ export interface GameQuery {
   sortOrder: string;
 }
 
+type ViewMode = "grid" | "xmb";
+
 function App() {
   const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
+  const [viewMode, setViewMode] = useState<ViewMode>("xmb");
 
+  // XMB Menu View
+  if (viewMode === "xmb") {
+    return (
+      <Box position="relative">
+        <Button
+          position="fixed"
+          top={4}
+          left={4}
+          zIndex={1000}
+          onClick={() => setViewMode("grid")}
+          colorScheme="blue"
+          size="sm"
+        >
+          Grid View
+        </Button>
+        <DailyGameMenuCarousel />
+      </Box>
+    );
+  }
+
+  // Traditional Grid View
   return (
     <>
       <Grid
@@ -30,7 +55,7 @@ function App() {
         }}
       >
         <GridItem area="nav">
-          <NavBar />
+          <NavBar onToggleView={() => setViewMode("xmb")} />
         </GridItem>
         <Show above="lg">
           <GridItem area="aside" paddingX={5}>
